@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Page Title</title>
+	<meta charset="UTF-8">
+	<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
+</head>
+<body>
+Hello React!
+<div id="reactroot"></div>
+</body>
+
+<script type="text/babel">
+	
+class Book extends React.Component{
+	constructor(props){
+		super(props);
+	}
+
+	render(){
+		
+		return (   
+			<div>
+			 	<img src={this.props.imageUrl} key="0"/>
+			 	<p key="1"> {this.props.text} </p>
+			 	<p key="2"> {this.props.ratingsCount} </p>
+			</div>
+
+     	);
+	}
+}
+
+ReactDOM.render(
+		<Book
+			imageUrl="https://images-na.ssl-images-amazon.com/images/I/51WD-F3GobL._AC_US436_FMwebp_QL65_.jpg"
+			text="Javascript"
+			ratingsCount="100" 
+		/>,  
+		document.getElementById('reactroot')
+	
+	);
+
+
+
+</script>
+</html>

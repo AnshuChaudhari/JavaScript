@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Page Title</title>
+	<meta charset="UTF-8">
+	<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.6.2/prop-types.min.js"></script>
+<style>
+        .styleComp1{
+			  border: 1px solid #ccc;		  
+			  width: 600px;
+              height: 600px;
+			  padding: 10px;
+			  margin: 50px 50px;
+
+		}
+
+		.styleComp2{
+			  border: 1px solid #ccc;		  
+			  width: 500px;
+              height: 500px;
+			  padding: 10px;
+			  margin-left: 30px;
+
+		}
+
+		.styleComp3{
+			  border: 1px solid #ccc;		  
+			  width: 400px;
+              height: 400px;
+			  padding: 10px;
+			  margin-left: 30px;
+
+		}
+
+	
+    </style>
+</head>
+<body>
+
+<div id="reactroot"></div>
+</body>
+
+<script type="text/babel">
+	
+class MainComponent extends React.Component{
+	constructor(props){
+		super(props);
+		this.state = {
+			counter: 1,
+			innerCounter: 1
+		}
+
+		this.increment = this.increment.bind(this);
+        this.incrementForInner = this.incrementForInner.bind(this);
+	}
+    getChildContext(){
+        return{
+            contextCount: this.state.innerCounter
+        }
+    }
+
+	increment(){
+		this.setState({
+			counter : this.state.counter + 1
+		});
+	}
+
+    incrementForInner(){
+        this.setState({
+            innerCounter: this.state.innerCounter + 1
+        })
+    }
+
+	/* getValueFromInner(x){
+		this.setState({
+			innerCounter: x
+		})
+	} */
+
+	render(){
+		
+		return (   
+			<div className="styleComp1">
+				<button type="button"  id="btn1"  value="main" onClick = {this.incrementForInner} >Child Counter</button>
+				<p>Main Component</p>
+				<p>{this.state.counter}</p>
+				<MiddleComponent counterValue = {this.increment}/>			
+            </div>
+			
+     	);
+	}
+
+
+}
+
+MainComponent.childContextTypes = {
+    contextCount: PropTypes.number
+};
+
+
+class MiddleComponent extends React.Component{
+	constructor(props){
+		super(props);
+	}
+
+	render(){
+		
+		return (   
+			<div className="styleComp2">
+				<p>Middle Component</p>	
+				<InnerComponent counterValue = {this.props.counterValue} />							
+            </div>
+			
+     	);
+	}
+}
+class InnerComponent extends React.Component{
+	constructor(props){
+		super(props);
+		this.state = {
+			/* counter: 1 */
+		}
+
+		/* this.innerIncrement = this.innerIncrement.bind(this); */
+	}
+
+	/* innerIncrement(){
+		this.setState({
+			counter : this.state.counter + 1
+		})
+		this.props.middleToInnerFunc(this.state.counter);
+	} */
+			
+	render(){
+		
+		return (   
+			<div className="styleComp3">
+				<p>Inner Component</p>
+					<button type="button"  id="btn2"  value="inner" onClick = {this.props.counterValue}>Main Counter</button>
+					<p>{this.context.contextCount}</p>
+			</div>
+
+     	);
+	}
+
+	
+}
+
+InnerComponent.contextTypes = {
+    contextCount: PropTypes.number
+};
+
+ReactDOM.render(
+	<MainComponent />,  
+		document.getElementById('reactroot')
+	);
+
+
+
+</script>
+</html>

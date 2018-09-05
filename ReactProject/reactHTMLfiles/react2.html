@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Page Title</title>
+	<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script type="text/babel" src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.js"></script>
+</head>
+<body>
+Hello React!
+<div id="reactroot"></div>
+</body>
+
+<script type="text/Javascript">
+
+	var subComponent = React.createElement('h1', {className:'style1'},"Hey! I am coming from React World");
+	var rootComponent = React.createElement('div', {id:'main'}, subComponent);
+	ReactDOM.render(rootComponent, document.getElementById('reactroot')
+		);
+
+/*	var subSubComponent = React.createElement('b', {className:'style1'},"Hey! I am coming from subSub Componenet");
+	var subComponent = React.createElement('span', {className:'style1'},subSubComponent);
+	var rootComponent = React.createElement('div', {id:'main'}, subComponent);
+	ReactDOM.render(rootComponent, document.getElementById('reactroot')
+		);	*/
+
+
+</script>
+</html>

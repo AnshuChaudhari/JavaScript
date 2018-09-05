@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        class TopComponent extends React.Component{
+            constructor(props){
+                super(props);
+                this.state = {
+                    counter : 100
+                }
+                console.log("constructor...");
+                this.increment = this.increment.bind(this);
+            }
+            
+            increment(){
+                this.setState({
+                     counter: this.state.counter + 5
+                });
+            }
+
+            render(){
+                console.log("render...");
+                return(
+                    <div>
+                        <div>Hello New Cycle Life</div>
+                        <button type='submit' onClick={this.increment}>Increment</button>
+                        <MiddleComponent counter={this.state.counter} />
+                    </div>
+                );
+            }
+
+            componentDidMount(){
+                console.log("componentDidMount...");
+                this.increment();
+
+            }
+        }
+        
+        class MiddleComponent extends React.Component{
+            constructor(props){
+                super(props);
+                this.state = {
+                    middleCounter: 100
+                }
+            } 
+            
+            static getDerivedStateFromProps(props, state){
+                console.log("getDerivedStateFromProps...");
+                var newState = {
+                    middleCounter : props.counter
+                }
+                return newState;
+            }
+
+            shouldComponentUpdate(nextProps, nextState){
+                if(nextState.middleCounter > 120){
+                    return false;
+                }
+                return true;
+            }
+            
+            render(){
+                console.log("render - MiddleComponent...");
+                return(
+                    <div className="container wall"> Middle Component {this.state.middleCounter}</div>
+                );
+            }
+
+            
+        }
+
+      ReactDOM.render(
+        <TopComponent />,
+        document.getElementById('root')
+      );
+
+    </script>
+    
+  </body>
+</html>

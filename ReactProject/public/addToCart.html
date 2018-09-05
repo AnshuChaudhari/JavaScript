@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <title>Cart</title>
+</head>
+<style>
+    .mycart{
+        border: 1px solid blue;
+        width: 900px;
+        height: 700px;
+        background-color:khaki;
+        padding: 10px;
+    }
+
+    .item-container{
+        display: flex;
+        border: 1px solid black;
+        width: 850px;
+        height: 500px;
+        justify-content: space-around;
+        margin: 30px 0px 0px 20px;
+        
+    }
+
+    .book1, .book2, .book3{
+        border: 1px solid gray;
+        width: 200px;
+        height: 300px;  
+        margin: 50px 0px 0px 0px;  
+        padding: 10px;
+    }
+
+    img{
+        width: 100px;
+        height: 100px;
+        padding: 10px;
+    }
+
+    .cartupdate{
+        border: 1px solid red;
+        width: 50px;
+        height: 30px;
+        display: block;
+        text-align: center;
+    }
+
+    .totalupdate{
+        border: 1px solid green;
+        width: 90px;
+        height: 30px;
+        display: block;
+        text-align: center;
+        margin-top: 10px;
+    }
+</style>
+<body>
+    <div id="root"></div>  
+</body>
+
+<script type="text/babel">
+    class MyCart extends React.Component{
+        constructor(props){
+            super(props);
+            this.state={
+                cartCounter: 0,
+                cartPrice: 0
+            }
+        }
+
+        getValueFromItems(x, y){
+            this.setState({
+                cartCounter: this.state.cartCounter + x,
+                cartPrice: this.state.cartPrice + y
+            })
+        }
+
+        render(){
+            return(
+                <div className="mycart">
+                    <p>CART</p><span className="cartupdate" >{this.state.cartCounter}</span>
+                    <span className="totalupdate" >{this.state.cartPrice}</span>
+                    <MyItems mainToMiddleFunc = {this.getValueFromItems.bind(this)}
+                        image = "images/book1.jpg" 
+                        bookName="Harry Potter and the Sorcerer Stone"
+                        price={25.98}/>
+
+                    <MyItems mainToMiddleFunc = {this.getValueFromItems.bind(this)}
+                        image = "images/book2.jpg" 
+                        bookName="Head First JavaScript"
+                        price={18.99}/>
+
+                    <MyItems mainToMiddleFunc = {this.getValueFromItems.bind(this)}
+                        image = "images/book3.jpg" 
+                        bookName="The Fallen(Memory Man Series)"
+                        price={14.99}/>   
+                </div>
+            )
+        }
+    }
+
+    class MyItems extends React.Component{
+        constructor(props){
+            super(props);
+            this.state={
+                cartCounter : 1,
+                cartPrice : this.props.price
+            }
+            this.increment = this.increment.bind(this);
+        }
+        
+        increment(){
+            this.setState({
+                cartCounter : this.state.cartCounter + 1,
+                cartPrice : this.state.cartPrice + this.state.cartPrice
+            });
+            console.log(this.state.cartCounter, this.state.cartPrice);
+            this.props.mainToMiddleFunc(this.state.cartCounter, this.state.cartPrice);
+        }
+
+
+        render(){
+            return(
+                <div className="item-container">
+                    <div className="book1">
+                        <img src={this.props.image} />
+                        <p>{this.props.bookName}</p>
+                        <p>${this.props.price}</p>
+                        <button type='submit' onClick={this.increment}>Add To Cart</button>
+                    </div>
+                    {/* <div className="book2">
+                        <img src={this.props.image2}  />
+                        <p>{this.props.bookName2}</p>
+                        <p>${this.props.price2}</p>
+                        <button type='submit' onClick={this.increment}>Add To Cart</button>
+                    </div>
+                    <div className="book3">
+                        <img src={this.props.image3}  />
+                        <p>{this.props.bookName3}</p>
+                        <p>${this.props.price3}</p>
+                        <button type='submit' onClick={this.increment}>Add To Cart</button>
+                    </div> */}
+                </div>
+            )
+        }
+    }
+
+    ReactDOM.render(
+	<MyCart />,  
+		document.getElementById('root')
+	);
+
+</script>
+</html>
